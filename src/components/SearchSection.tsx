@@ -33,8 +33,8 @@ const SearchSection = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       console.log('Searching for:', searchQuery);
-      // Navigate to explore page with search results
-      navigate('/explore');
+      // Navigate to explore page with search query as URL parameter
+      navigate(`/explore?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
