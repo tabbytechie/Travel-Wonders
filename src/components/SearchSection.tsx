@@ -1,11 +1,32 @@
 
 import React, { useState } from 'react';
 import { Search, SlidersHorizontal, Bell } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
 const SearchSection = () => {
   const [activePackage, setActivePackage] = useState('all');
+  const navigate = useNavigate();
+
+  const handlePackageClick = (packageType: string) => {
+    setActivePackage(packageType);
+    
+    // Route to different pages based on package type
+    switch (packageType) {
+      case 'all':
+        navigate('/explore');
+        break;
+      case 'flight':
+        navigate('/trip-plans');
+        break;
+      case 'hotel':
+        navigate('/favorite');
+        break;
+      default:
+        navigate('/explore');
+    }
+  };
 
   return (
     <div className="bg-white p-6 space-y-6">
@@ -31,7 +52,7 @@ const SearchSection = () => {
       {/* Package Selection */}
       <div className="flex space-x-3">
         <Button
-          onClick={() => setActivePackage('all')}
+          onClick={() => handlePackageClick('all')}
           className={`rounded-full px-6 py-3 text-sm font-medium transition-all duration-300 ${
             activePackage === 'all'
               ? 'bg-green-500 text-white hover:bg-green-600'
@@ -42,7 +63,7 @@ const SearchSection = () => {
           All Package
         </Button>
         <Button
-          onClick={() => setActivePackage('flight')}
+          onClick={() => handlePackageClick('flight')}
           className={`rounded-full px-6 py-3 text-sm font-medium transition-all duration-300 ${
             activePackage === 'flight'
               ? 'bg-green-500 text-white hover:bg-green-600'
@@ -52,7 +73,7 @@ const SearchSection = () => {
           Flight Package
         </Button>
         <Button
-          onClick={() => setActivePackage('hotel')}
+          onClick={() => handlePackageClick('hotel')}
           className={`rounded-full px-6 py-3 text-sm font-medium transition-all duration-300 ${
             activePackage === 'hotel'
               ? 'bg-green-500 text-white hover:bg-green-600'
