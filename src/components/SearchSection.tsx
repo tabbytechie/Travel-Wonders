@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 
 const SearchSection = () => {
   const [activePackage, setActivePackage] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   const handlePackageClick = (packageType: string) => {
@@ -28,6 +29,21 @@ const SearchSection = () => {
     }
   };
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      console.log('Searching for:', searchQuery);
+      // Navigate to explore page with search results
+      navigate('/explore');
+    }
+  };
+
+  const handleSearchKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearchSubmit(e as any);
+    }
+  };
+
   return (
     <div className="bg-white p-6 space-y-6">
       {/* Header */}
@@ -40,14 +56,17 @@ const SearchSection = () => {
       </div>
 
       {/* Search Bar */}
-      <div className="relative">
+      <form onSubmit={handleSearchSubmit} className="relative">
         <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
         <Input
           placeholder="Search Destination, place..."
           className="pl-12 pr-12 py-4 rounded-2xl bg-gray-50 border-0 text-lg"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyPress={handleSearchKeyPress}
         />
         <SlidersHorizontal className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-      </div>
+      </form>
 
       {/* Package Selection */}
       <div className="flex space-x-3">
